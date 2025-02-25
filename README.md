@@ -60,7 +60,7 @@ within your $ORACLE_HOME in order for this script to run.
    you collect 30 days of AWR SNAPS. Note however you will only be able to collect 30
    days of SNAPS if you have defined the SNAP retention value as such. Burleson has
    an excellent book about Oracle performance tuning and AWR if this is new material
-   for you. See http://dba-oracle.com/oracle10g_tuning/t_generating_awr_report.htm 
+   for you. See https://www.amazon.com/Oracle-High-Performance-Tuning-Donald-Burleson/dp/0072190582
 7. You will see a long list of AWR SNAPs. Select the lowest AWR SNAP number in the list.
 8. Next enter the last AWR SNAP number.
 9. The script will end and you will be returned to the SQL prompt. Also, you will be
