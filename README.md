@@ -28,21 +28,22 @@ elsewhere and copy it over (scp, USB, etc.).
   nohup ./collect_os.sh > /tmp/collect_os.log 2>&1 &
   ```
 
-- `./collect_db.sh` -- run this on the DB host once for each database that
-  matters to the engagement (it asks for the `ORACLE_SID` each time; run it
-  again for additional databases). It requires Oracle Enterprise Edition
-  with the Diagnostic Pack license -- confirm the client is licensed for
-  AWR before running it. It pulls all currently-retained AWR history and
-  produces one `.tar.gz` in `/tmp`.
+- `./collect_db.sh` -- run this once on the DB host. It discovers every
+  currently running Oracle instance and asks which one is the "heavy
+  hitter" that should get the full AWR history treatment (every retained
+  snapshot, one report per hour). Every *other* running database
+  automatically gets a lighter single report covering just its most recent
+  hour, as a spot-check. It requires Oracle Enterprise Edition with the
+  Diagnostic Pack license -- confirm the client is licensed for AWR before
+  running it. Each database produces its own `.tar.gz` in `/tmp`, and it
+  prints a summary of all of them when it finishes.
 
   ```
   ./collect_db.sh
   ```
 
-  Not every database on a host needs this -- use your judgment on which
-  databases are actually worth profiling. Lighter databases sharing a host
-  with a heavily-used one are already reflected in that host's OS-level
-  data from step 2.
+  You can also name the full-treatment database up front to skip the
+  prompt: `./collect_db.sh <ORACLE_SID>`.
 
 **3. Upload the results.**
 
