@@ -3,12 +3,11 @@
 # Collects Oracle AWR workload data for a David Kent Consulting cloud
 # engagement, in one pass across every running database on this host.
 #
-# You'll be asked which database should get the FULL AWR history treatment
-# (every retained snapshot, one HTML report per hour) -- pick the "heavy
-# hitter" the engagement actually cares about. Every OTHER currently
-# running database automatically gets a lighter single report covering
-# just its most recent hour, as a spot-check. Each database produces its
-# own .tar.gz in /tmp.
+# You'll be asked which database needs full AWR history (every retained
+# snapshot, one HTML report per hour) -- pick the "heavy hitter" the
+# engagement actually cares about. Every OTHER currently running database
+# automatically gets a lighter single report covering just its most recent
+# hour, as a spot-check. Each database produces its own .tar.gz in /tmp.
 #
 # AWR report generation logic adapted from awr-generator.sql, originally
 # authored by flashdba (http://flashdba.com, 2014) and modified by
@@ -27,7 +26,7 @@
 # HOW TO RUN
 # ==========
 #   ./collect_db.sh
-# or non-interactively, naming which database gets the full treatment:
+# or non-interactively, naming which database needs full AWR history:
 #   ./collect_db.sh <ORACLE_SID>
 #
 # When it finishes, it prints a summary of every .tar.gz it produced.
@@ -243,7 +242,7 @@ else
 	echo ""
 	full_sid="$main_sid_arg"
 	if [ -z "$full_sid" ]; then
-		read -rp "Which database gets the FULL AWR history treatment? (every other running database above gets a single most-recent-hour report): " full_sid
+		read -rp "Which database needs full AWR history? (every other running database above gets a single most-recent-hour report): " full_sid
 	fi
 fi
 
