@@ -1,3 +1,8 @@
+--  NOTE: for standard client data collection, use collect_db.sh in the repo
+--  root instead -- it automates this script's logic without the interactive
+--  prompts. This file is kept for reference and for cases needing manual
+--  control over the snapshot range or output format.
+--
 --  AWR-Generator.sql: Script for creating multiple consecutive Oracle AWR Reports
 --                     Creates an output SQL script which, when run, will generate
 --                     all AWR Reports between the specificed start and end snapshot
