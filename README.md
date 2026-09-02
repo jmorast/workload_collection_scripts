@@ -10,18 +10,14 @@ Three steps: download, run, upload.
 
 ## 1. Download
 
-Download the tools as a zip file and unzip it:
-
 ```
-curl -L -o workload_collection_scripts.zip https://github.com/David-Kent-Consulting/workload_collection_scripts/archive/refs/heads/master.zip
-unzip workload_collection_scripts.zip
-mv workload_collection_scripts-master workload_collection_scripts
-cd workload_collection_scripts
+mkdir workload_collection_scripts && cd workload_collection_scripts
+curl -L https://github.com/David-Kent-Consulting/workload_collection_scripts/archive/refs/heads/master.tar.gz | tar xz --strip-components=1
 ```
 
-If this host doesn't have outbound internet access, download the zip on
-another machine and copy it over (scp, USB, etc.), or ask your David Kent
-Consulting contact to send it to you directly.
+If this host doesn't have outbound internet access, download the tools on
+another machine and copy the folder over (scp, USB, etc.), or ask your
+David Kent Consulting contact to send it to you directly.
 
 ## 2. Run
 
