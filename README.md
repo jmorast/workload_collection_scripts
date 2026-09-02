@@ -15,7 +15,8 @@ Download the tools as a zip file and unzip it:
 ```
 curl -L -o workload_collection_scripts.zip https://github.com/David-Kent-Consulting/workload_collection_scripts/archive/refs/heads/master.zip
 unzip workload_collection_scripts.zip
-cd workload_collection_scripts-master
+mv workload_collection_scripts-master workload_collection_scripts
+cd workload_collection_scripts
 ```
 
 If this host doesn't have outbound internet access, download the zip on
