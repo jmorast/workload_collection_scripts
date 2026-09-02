@@ -64,6 +64,7 @@ cat /proc/cpuinfo > "$out_dir/cpuinfo.${timestamp}.txt"
 echo "Collecting memory/swap stats every ${interval}s. This will run for about 72 hours."
 counter=0
 while [ $counter -lt $iterations ]; do
+	echo "Running data collection iteration $counter of $iterations."
 	{
 		echo "------------"
 		echo "iteration $counter"
