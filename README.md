@@ -1,66 +1,60 @@
-# workload_collection_scripts
+# Workload Data Collection
 
-Data collection for a David Kent Consulting cloud engagement. This
-determines the existing workload of a client's Linux hosts and Oracle
-databases (12c or later) ahead of a cloud migration or sizing decision.
+As part of your cloud engagement with David Kent Consulting, we need a
+snapshot of how your current systems are actually being used -- CPU,
+memory, disk I/O, and Oracle database activity. These scripts collect that
+data for us. They are read-only: they don't change any configuration and
+are safe to run against production.
 
-## What to do
+Three steps: download, run, upload.
 
-**1. Download this repo onto the client's host(s).**
+## 1. Download
+
+Download the tools as a zip file and unzip it:
 
 ```
-git clone https://github.com/David-Kent-Consulting/workload_collection_scripts.git
-cd workload_collection_scripts
+curl -L -o workload_collection_scripts.zip https://github.com/David-Kent-Consulting/workload_collection_scripts/archive/refs/heads/master.zip
+unzip workload_collection_scripts.zip
+cd workload_collection_scripts-master
 ```
 
-If you can't reach GitHub from the client site, download a zip of the repo
-elsewhere and copy it over (scp, USB, etc.).
+If this host doesn't have outbound internet access, download the zip on
+another machine and copy it over (scp, USB, etc.), or ask your David Kent
+Consulting contact to send it to you directly.
 
-**2. Run the collection scripts.**
+## 2. Run
 
-- `./collect_os.sh` -- run this on every host you need workload data for.
-  It runs unattended for 72 hours capturing CPU, memory, and disk I/O, then
-  produces one `.tar.gz` in `/tmp`. Start it on a Monday, Tuesday, or
-  Wednesday morning so the window covers a normal business cycle, and
-  background it so it survives you logging out:
+**On every host you're collecting from**, run `collect_os.sh`. It captures
+CPU, memory, and disk I/O for 72 hours, then packages the results into a
+single file in `/tmp`. Start it on a Monday, Tuesday, or Wednesday morning
+so the 72-hour window covers a normal business week, and run it in the
+background so it keeps going after you log out:
 
-  ```
-  nohup ./collect_os.sh > /tmp/collect_os.log 2>&1 &
-  ```
+```
+nohup ./collect_os.sh > /tmp/collect_os.log 2>&1 &
+```
 
-- `./collect_db.sh` -- run this once on the DB host. It discovers every
-  currently running Oracle instance and asks which one needs full AWR
-  history (every retained snapshot, one report per hour) -- pick the
-  "heavy hitter" the engagement actually cares about. Every *other*
-  running database automatically gets a lighter single report covering
-  just its most recent hour, as a spot-check. It requires Oracle
-  Enterprise Edition with the Diagnostic Pack license -- confirm the
-  client is licensed for AWR before running it. Each database produces
-  its own `.tar.gz` in `/tmp`, and it prints a summary of all of them when
-  it finishes.
+**On your Oracle database host**, run `collect_db.sh`. It finds every
+database currently running and asks which one is your busiest -- that one
+gets a full AWR history report; every other running database gets a
+quick one-hour snapshot automatically. No further input needed after you
+answer that one question. This requires Oracle Enterprise Edition with the
+Diagnostic Pack license.
 
-  ```
-  ./collect_db.sh
-  ```
+```
+./collect_db.sh
+```
 
-  You can also name the database that needs full AWR history up front to
-  skip the prompt: `./collect_db.sh <ORACLE_SID>`.
+## 3. Upload
 
-**3. Upload the results.**
+Both scripts leave a `.tar.gz` file in `/tmp` when they finish (one per
+host, one per database). Upload each file to:
 
-Every `.tar.gz` left in `/tmp` by the scripts above needs to be uploaded
-manually to **https://upload.davidkentconsulting.com/**. For each file,
-describe what it is -- client name, hostname or database name, and the
-date range it covers.
+**https://upload.davidkentconsulting.com/**
 
-## extras/
+When prompted, note which host or database each file came from -- that's
+all we need from you. We'll take it from there.
 
-Optional tools not part of the standard collection above -- ad hoc SQL
-diagnostics and load-testing scripts. See `extras/README.md`. Load-testing
-scripts should only be run against production during an approved outage
-window.
+---
 
-## License
-
-GNU General Public License v2 (or later). See
-https://www.gnu.org/licenses/gpl-2.0.html
+Questions at any point, reach out to your David Kent Consulting contact.
